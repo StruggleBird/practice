@@ -9,6 +9,7 @@ public class RandomFileName {
 	 * @param 字符串长度
 	 * @return
 	 */
+
 	public static String getRandomString(int length) {
 		String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		Random random = new Random();
