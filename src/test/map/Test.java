@@ -1,6 +1,5 @@
-package test.base;
+package test.map;
 
-import java.util.Map;
 import java.util.TreeMap;
 
 public class Test {
@@ -21,6 +20,7 @@ public class Test {
 		map.put(100, "D");
 		map.put(140, "E");
 		int random = (int) (Math.random() * 150);
+		System.out.println(random);
 		return map.lowerEntry(random).getValue();
 
 	}
