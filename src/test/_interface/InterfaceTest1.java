@@ -18,7 +18,7 @@ public class InterfaceTest1
         Ball ball = new InterfaceTest1().new Ball("football");
     }
 
-    class Ball implements RollAble
+   class Ball implements RollAble
     {
         public Ball(String name)
         {
