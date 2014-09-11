@@ -38,7 +38,6 @@ public class ThreadTest2
     class MainThread implements Runnable
     {
 
-        @Override
         public void run()
         {
             new SubThread().start();

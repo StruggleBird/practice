@@ -16,6 +16,14 @@ public class InterfaceTest1
     interface RollAble extends PlayAble, BounceAble
     {
         Ball ball = new InterfaceTest1().new Ball("football");
+
+		/**
+		 *
+		 *
+		 * @author Zhoutao
+		 * @date 2014年9月11日
+		 */
+		void play();
     }
 
    class Ball implements RollAble
@@ -37,7 +45,6 @@ public class InterfaceTest1
             this.name = name;
         }
 
-        @Override
         public void play()
         {
             /*常量不能被重新分配值*/
