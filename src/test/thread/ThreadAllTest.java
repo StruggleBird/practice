@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
@@ -234,7 +235,6 @@ public class ThreadAllTest extends TestCase {
 		System.out.println("end");
 	}
 
-
 	public void testFuture() throws InterruptedException, ExecutionException, TimeoutException {
 		ExecutorService service = Executors.newCachedThreadPool();
 
@@ -247,5 +247,55 @@ public class ThreadAllTest extends TestCase {
 		});
 		service.execute(task);
 		System.out.println(task.get(1000, TimeUnit.MILLISECONDS));
+	}
+
+	static Object memoryLock = new Object();
+
+	public void testMemory() throws InterruptedException {
+		final Thread mainThread = Thread.currentThread();
+		Thread t2 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (true) {
+					try {
+						List<String> list = new ArrayList<String>();
+						for (int i = 0; i < 10000; i++) {
+							list.add("asdfljasldfjlkasjdfklkjalsd1111111111111111111111111111111111111111111111111111111111111111asdfljasldfjlkasjdfklkjalsd1111111111111111111111111111111111111111111111111111111111111111asdfljasldfjlkasjdfklkjalsd1111111111111111111111111111111111111111111111111111111111111111asdfljasldfjlkasjdfklkjalsd1111111111111111111111111111111111111111111111111111111111111111asdfljasldfjlkasjdfklkjalsd1111111111111111111111111111111111111111111111111111111111111111asdfljasldfjlkasjdfklkjalsd1111111111111111111111111111111111111111111111111111111111111111" + i);
+						}
+						Thread.sleep(1000);
+						System.out.println("max:"+Runtime.getRuntime().maxMemory()/1024/1024+"mb,used:" + Runtime.getRuntime().totalMemory() / 1024 / 1024 + "mb,free:"
+								+ Runtime.getRuntime().freeMemory() / 1024 / 1024 + "mb,threads:"
+								+ mainThread.activeCount());
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+			}
+		});
+		t2.start();
+		int poolSize = 10000;
+		for (int i = 0; i < poolSize; i++) {
+			Thread t = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+//						System.out.println("Thread " + Thread.currentThread().getName() + " running.");
+						Thread.sleep(60*1000);
+
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			t.start();
+			Thread.sleep(10);
+		}
+		System.out.println("all thread start:" + Thread.activeCount());
+		Thread.sleep(60 * 1000);
 	}
 }
