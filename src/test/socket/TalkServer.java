@@ -1,52 +1,65 @@
-
 package test.socket;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class TalkServer
-{
-    public static void main(String[] args)
-    {
-        try
-        {
-            ServerSocket serverSocket = new ServerSocket(3000);
+public class TalkServer {
+	public static final int PORT = 1000;
+	
+	public BufferedReader getReader(Socket socket) throws IOException{
+		InputStream socketIn = socket.getInputStream();
+		return new BufferedReader(new InputStreamReader(socketIn));
+	}
+	/**
+	 * @param socket
+	 * @return
+	 * @throws IOException
+	 * @create 2014-5-13
+	 */
+	private PrintWriter getWriter(Socket socket) throws IOException {
+		OutputStream socketOut = socket.getOutputStream();
+		PrintWriter writer = new PrintWriter(socketOut,true);
+		return writer;
+	}
+	
+	public void service(){
+		try {
+			ServerSocket serverSocket = new ServerSocket(PORT);
+			System.out.println("服务器启动");
+			Socket socket = serverSocket.accept();
+			System.out.println("服务器接收到请求,请求地址  "+socket.getInetAddress()+":"+socket.getPort());
+			
+			BufferedReader reader = getReader(socket);
+			PrintWriter writer = getWriter(socket);
 
-            Socket socket = serverSocket.accept();
-            System.out.println("accpet");
-            BufferedReader bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter os = new PrintWriter(socket.getOutputStream());
+			String message = reader.readLine();
 
-            BufferedReader bSin = new BufferedReader(new InputStreamReader(System.in));
+			while (!"bye".equals(message)) {
+				System.out.println("accpet request:" + message);
+				writer.println("###" + message + "###");
+				writer.flush();
+				message = reader.readLine();
+			}
 
-            for (int i = 0; i < 3; i++)
-            {
-                System.out.println("client:" + bReader.readLine());
-            }
-            //            String line = bSin.readLine();
-            //            
-            //            while (!"bye".equals(line))
-            //            {
-            //                os.print(line);
-            //                os.flush();
-            //                System.out.println("server:"+line);
-            //                System.out.println("client:" + bReader.readLine());
-            //                line = bSin.readLine();
-            //            }
+			reader.close();
+			writer.close();
+			socket.close();
+			serverSocket.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-            bReader.close();
-            os.close();
-            bSin.close();
-            socket.close();
-            serverSocket.close();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
+	
+
+	public static void main(String[] args) {
+		new TalkServer().service();
+	}
 }

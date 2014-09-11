@@ -13,24 +13,24 @@ public class TalkClient
     {
         try
         {
-            Socket socket = new Socket("192.168.1.100", 3000);
-            BufferedReader bReader = new LineNumberReader(new InputStreamReader(System.in));
-            PrintWriter pWriter = new PrintWriter(socket.getOutputStream());
-            BufferedReader bReaderIs = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String sin = "";
-            sin = bReader.readLine();
-            while (!"bye".equals(sin))
+            Socket socket = new Socket("127.0.0.1", TalkServer.PORT);
+            BufferedReader inputReader = new LineNumberReader(new InputStreamReader(System.in));
+            PrintWriter writer = new PrintWriter(socket.getOutputStream());
+            BufferedReader socketReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            String input = "";
+            input = inputReader.readLine();
+            while (!"bye".equals(input))
             {
-                pWriter.write(sin);
-                pWriter.flush();
-                System.out.println("client:" + sin);
-                //System.out.println("server:" + bReaderIs.readLine());
-                sin = bReader.readLine();
+                writer.println(input);
+                writer.flush();
+                System.out.println("client request:" + input);
+                System.out.println("收到响应："+socketReader.readLine());
+                input = inputReader.readLine();
             }
 
-            bReader.close();
-            pWriter.close();
-            bReaderIs.close();
+            inputReader.close();
+            writer.close();
+            socketReader.close();
             socket.close();
 
         }
