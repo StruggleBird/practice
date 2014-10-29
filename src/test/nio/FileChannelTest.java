@@ -18,7 +18,7 @@ public class FileChannelTest {
 
 	@Test
 	public void testRead() throws IOException {
-		RandomAccessFile aFile = new RandomAccessFile("a.txt", "rw");
+		RandomAccessFile aFile = new RandomAccessFile("resources/a.txt", "rw");
 		FileChannel inChannel = aFile.getChannel();
 
 		ByteBuffer buf = ByteBuffer.allocate(20);
@@ -45,10 +45,10 @@ public class FileChannelTest {
 	 */
 	@Test
 	public void testTransferFrom() throws IOException {
-		RandomAccessFile fromFile = new RandomAccessFile("1.txt", "rw");
+		RandomAccessFile fromFile = new RandomAccessFile("resources/1.txt", "rw");
 		FileChannel fromChannel = fromFile.getChannel();
 
-		RandomAccessFile toFile = new RandomAccessFile("2.txt", "rw");
+		RandomAccessFile toFile = new RandomAccessFile("resources/2.txt", "rw");
 		FileChannel toChannel = toFile.getChannel();
 
 		long position = 0;
@@ -61,9 +61,9 @@ public class FileChannelTest {
 	@Test
 	public void testTransferTo() throws IOException {
 		String mode = "rw";
-		RandomAccessFile fromFile = new RandomAccessFile("2.txt", mode);
+		RandomAccessFile fromFile = new RandomAccessFile("resources/2.txt", mode);
 		FileChannel fromChannel = fromFile.getChannel();
-		RandomAccessFile toFile = new RandomAccessFile("1.txt", mode);
+		RandomAccessFile toFile = new RandomAccessFile("resources/1.txt", mode);
 		FileChannel toChannel = toFile.getChannel();
 		fromChannel.transferTo(fromChannel.position(), fromChannel.size(), toChannel);
 	}
