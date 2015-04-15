@@ -88,6 +88,7 @@ public class Server {
 		clientChannel.configureBlocking(false);
 		clientChannel.register(selector, SelectionKey.OP_READ);
 		System.out.println("a new client connected");
+        clientChannel.write(ByteBuffer.wrap(new String("send message to client").getBytes()));
 	}
 
 	public static void main(String[] args) throws IOException {
