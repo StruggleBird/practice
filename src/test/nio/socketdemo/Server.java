@@ -76,10 +76,7 @@ public class Server {
 			System.arraycopy(readBuffer.array(), 0, newBytes, bytes.length, numRead);
 			clientMessage.put(socketChannel, newBytes);
 			System.out.println(new String(newBytes));
-		} else {
-			String message = new String(bytes);
-			System.out.println(message);
-		}
+		} 
 	}
 
 	private void accept(SelectionKey key) throws IOException {
