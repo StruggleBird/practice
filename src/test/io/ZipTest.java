@@ -14,18 +14,8 @@ import junit.framework.TestCase;
 public class ZipTest extends TestCase {
 
 
-    public void testMakeFile() throws IOException, WriterException {
-        File png = new File("a.png");
-        if (!png.exists()) {
-            png.createNewFile();
-        }
 
-        FileOutputStream os = new FileOutputStream(png);
-        ZxingUtil.encode("http://baidu.com", 300, 300, os);
-
-    }
-
-    public void testZip() throws IOException, WriterException {
+    public void testZip() throws IOException {
 
         FileOutputStream dest = new FileOutputStream("a.zip");
         ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
@@ -33,7 +23,6 @@ public class ZipTest extends TestCase {
         ZipEntry entry = new ZipEntry("a.png");
         out.putNextEntry(entry);
 
-        ZxingUtil.encode("http://baidu.com", 300, 300, out);
 
         out.closeEntry();
         out.close();
