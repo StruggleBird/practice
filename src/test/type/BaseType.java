@@ -1,5 +1,5 @@
 
-package test;
+package test.type;
 
 public class BaseType
 { 
