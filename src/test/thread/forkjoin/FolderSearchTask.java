@@ -1,4 +1,4 @@
-package test.thread.forkjoin;
+package org.zt.test.thread.forkjoin;
 
 import java.util.LinkedList;
 import java.util.List;

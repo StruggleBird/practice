@@ -1,4 +1,4 @@
-package test.thread.forkjoin;
+package org.zt.test.thread.forkjoin;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package test.thread.concurrent;
+package org.zt.test.thread.concurrent;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ConcurrentLinkedQueue;

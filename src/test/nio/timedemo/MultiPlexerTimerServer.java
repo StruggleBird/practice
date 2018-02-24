@@ -1,7 +1,7 @@
 /**
  * 
  */
-package test.nio.timedemo;
+package org.zt.test.nio.timedemo;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package test.thread.lock;
+package org.zt.test.thread.lock;
 
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;

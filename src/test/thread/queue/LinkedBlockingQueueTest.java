@@ -1,4 +1,4 @@
-package test.thread.queue;
+package org.zt.test.thread.queue;
 
 import java.util.Random;
 import java.util.concurrent.ExecutorCompletionService;

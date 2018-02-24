@@ -1,4 +1,4 @@
-package test.thread.forkjoin;
+package org.zt.test.thread.forkjoin;
 
 public class WordCounter {
 

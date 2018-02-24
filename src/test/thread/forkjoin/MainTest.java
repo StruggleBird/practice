@@ -1,13 +1,13 @@
 /**
  * 
  */
-package test.thread.forkjoin;
+package org.zt.test.thread.forkjoin;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ForkJoinPool;
 
-import test.common.TimeCostThread;
+import org.zt.test.common.TimeCostThread;
 
 /**
  * @author Zhoutao

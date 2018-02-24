@@ -1,4 +1,4 @@
-package test.thread.concurrent;
+package org.zt.test.thread.concurrent;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 

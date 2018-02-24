@@ -1,4 +1,4 @@
-package test.thread.queue;
+package org.zt.test.thread.queue;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -38,7 +38,7 @@ public class SynchronousQueueTest {
 	}
 
 	@Test
-	public void test() throws IOException {
+	public void org.zt.test() throws IOException {
 		new Thread(new Runnable() {
 
 			@Override
