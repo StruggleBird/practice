@@ -38,7 +38,7 @@ public class SynchronousQueueTest {
 	}
 
 	@Test
-	public void org.zt.test() throws IOException {
+	public void test() throws IOException {
 		new Thread(new Runnable() {
 
 			@Override
