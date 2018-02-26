@@ -2,7 +2,7 @@ package org.zt.test.map;
 
 import java.util.TreeMap;
 
-public class Test {
+public class TreeMapTest {
 
 	public static void main(String[] args) {
 
