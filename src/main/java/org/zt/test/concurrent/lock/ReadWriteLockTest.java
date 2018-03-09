@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.zt.test.thread.lock;
+package org.zt.test.concurrent.lock;
 
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -59,11 +59,17 @@ class PricesInfo {
 	 */
 	public void setPrice(double price1, double price2) {
 		lock.writeLock().lock();
-		System.out.printf("Writer: Attempt to modify the prices.\n");
-		this.price1 = price1;
-		this.price2 = price2;
-		System.out.printf("Writer: Prices have been modified.\n");
-		lock.writeLock().unlock();
+		try {
+			System.out.printf("Writer: Attempt to modify the prices.\n");
+			this.price1 = price1;
+			this.price2 = price2;
+			Thread.sleep(2000);
+			System.out.printf("Writer: Prices have been modified.\n");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			lock.writeLock().unlock(); //确保解锁一定会执行
+		}
 	}
 
 	/**
@@ -71,9 +77,12 @@ class PricesInfo {
 	 */
 	public double getPrice2() {
 		lock.readLock().lock();
-		double value = price2;
-		lock.readLock().unlock();
-
+		double value;
+		try {
+			value = price2;
+		} finally {
+			lock.readLock().unlock();
+		}
 		return value;
 	}
 

@@ -2,6 +2,11 @@ package org.zt.test.map;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 
@@ -13,7 +18,7 @@ public class HashMapTest {
 	 */
 	@Test
 	public void fastFail() {
-		Map<String, String> map = new HashMap<>();
+		final Map<String, String> map = new HashMap<>();
 		new Thread(new Runnable() {
 
 			@Override
@@ -27,22 +32,36 @@ public class HashMapTest {
 		for (String key : map.keySet()) {
 
 		}
-
 		System.out.println(map.size());
+
 	}
 
 	/**
 	 * resize 死循环: http://blog.csdn.net/hll174/article/details/50915346
+	 * 
+	 * @throws InterruptedException
 	 */
 	@Test
-	public void resize() {
-		Map<Integer, Integer> map = new HashMap<>(2);
-		map.put(3, 3);
-		map.put(7, 7);
-		map.put(5, 5);
-		for (Integer key : map.keySet()) {
-			System.out.println(key);
-		}
+	public void resize() throws InterruptedException {
+
+		final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<String, String>(2);
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				for (int i = 0; i < 10000; i++) {
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							map.put(UUID.randomUUID().toString(), "");
+						}
+					}, "ftf" + i).start();
+				}
+			}
+		}, "ftf");
+		t.start();
+		t.join();
+		Thread.sleep(3000);
+		System.out.println(map.size());
 	}
 
 }

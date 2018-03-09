@@ -1,4 +1,4 @@
-package org.zt.test.thread.lock;
+package org.zt.test.concurrent.lock;
 
 import org.junit.Test;
 
