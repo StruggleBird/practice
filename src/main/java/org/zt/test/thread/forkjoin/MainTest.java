@@ -52,7 +52,7 @@ public class MainTest {
 		TimeCostThread timeCost = new TimeCostThread();
 		timeCost.start();
 		Folder folder = Folder.fromDirectory(new File(
-				"C:/Users/Administrator/Desktop/docs/lyweb/"));
+				"~"));
 
 		System.out.println(wordCounter.countOccurrencesOnSingleThread(folder,
 				"a"));
