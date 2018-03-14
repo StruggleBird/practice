@@ -39,7 +39,7 @@ public class LinkedBlockingDequeTest {
 					try {
 						Object first = deque.takeFirst();
 						Thread.sleep(10);
-						System.out.println("Thread2:" + first);
+						System.out.println("		Thread2:" + first);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
