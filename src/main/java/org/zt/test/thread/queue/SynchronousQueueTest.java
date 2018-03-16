@@ -1,6 +1,7 @@
 package org.zt.test.thread.queue;
 
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -82,10 +83,11 @@ public class SynchronousQueueTest {
 	 */
 	@Test
 	public void testFair() throws InterruptedException {
+		long begin = System.currentTimeMillis();
 		SynchronousQueue<Object> queue = new SynchronousQueue<>(true); // 公平锁体现在入队顺序和出队顺序是否一致
-		//fair 为true时，按照线程插入的先后顺序入队；为false时，则为竞争机制
-
-		//消费线程
+		// fair 为true时，按照线程插入的先后顺序入队；为false时，则为竞争机制
+		CountDownLatch cdl = new CountDownLatch(20);
+		// 消费线程
 		new Thread(new Runnable() {
 
 			@Override
@@ -95,6 +97,7 @@ public class SynchronousQueueTest {
 					Thread.sleep(100);
 					while ((t = (Thread) queue.take()) != null) {
 						System.out.println("	" + t.getName() + "出队列");
+						cdl.countDown();
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -102,8 +105,7 @@ public class SynchronousQueueTest {
 			}
 		}).start();
 
-		
-		//生产线程
+		// 生产线程
 		for (int i = 0; i < 10; i++) {
 			final String name = i + "";
 			new Thread(new Runnable() {
@@ -114,6 +116,7 @@ public class SynchronousQueueTest {
 					try {
 						queue.put(Thread.currentThread());
 						System.out.println(name + "加入队列");
+						cdl.countDown();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -122,7 +125,8 @@ public class SynchronousQueueTest {
 			Thread.sleep(1); // 休眠1秒，保证线程入队顺序
 		}
 
-		Thread.sleep(3000);
+		cdl.await();
+		System.out.println("测试结束耗时：" + (System.currentTimeMillis() - begin) + "ms");
 	}
 
 }
