@@ -65,7 +65,7 @@ public class SynchronousQueueTest {
 				while (true) {
 					try {
 						System.out.println("pre take");
-						System.out.println("take:" + queue.take()+"\n");
+						System.out.println("take:" + queue.take() + "\n");
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -73,6 +73,56 @@ public class SynchronousQueueTest {
 			}
 		}).start();
 		System.in.read();
+	}
+
+	/**
+	 * 生产者、消费者互相阻塞示例
+	 * 
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void testFair() throws InterruptedException {
+		SynchronousQueue<Object> queue = new SynchronousQueue<>(true); // 公平锁体现在入队顺序和出队顺序是否一致
+		//fair 为true时，按照线程插入的先后顺序入队；为false时，则为竞争机制
+
+		//消费线程
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				Thread t = null;
+				try {
+					Thread.sleep(100);
+					while ((t = (Thread) queue.take()) != null) {
+						System.out.println("	" + t.getName() + "出队列");
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+
+		
+		//生产线程
+		for (int i = 0; i < 10; i++) {
+			final String name = i + "";
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					Thread.currentThread().setName(name);
+					try {
+						queue.put(Thread.currentThread());
+						System.out.println(name + "加入队列");
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+			Thread.sleep(1); // 休眠1秒，保证线程入队顺序
+		}
+
+		Thread.sleep(3000);
 	}
 
 }
