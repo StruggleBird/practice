@@ -1,5 +1,9 @@
 package org.zt.test.thread.concurrent;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Test;
 
 /**
@@ -8,6 +12,35 @@ import org.junit.Test;
  * @date 2014年9月11日
  */
 public class SemaphoreTest {
+
+	/**
+	 * 通过信号量限流
+	 * @throws InterruptedException 
+	 */
+	@Test
+	public void test1() throws InterruptedException {
+		final int THREAD_COUNT = 30;
+		ExecutorService threadPool = Executors.newFixedThreadPool(THREAD_COUNT);//30个线程
+		java.util.concurrent.Semaphore s = new java.util.concurrent.Semaphore(10); //最多同时处理10个请求
+		for (int i = 0; i < THREAD_COUNT; i++) {
+			final String name = i+"";
+			threadPool.execute(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						s.acquire();
+						System.out.println("save data:"+name);
+						Thread.sleep(1000);
+						s.release();
+					} catch (InterruptedException e) {
+					}
+				}
+			});
+		}
+		threadPool.shutdown();
+		threadPool.awaitTermination(10, TimeUnit.MINUTES);
+
+	}
 
 	@Test
 	public void testSemaphore() {
@@ -21,7 +54,6 @@ public class SemaphoreTest {
 		sender.start();
 	}
 
-	
 	/**
 	 * 可计数的Semaphore
 	 *
@@ -173,7 +205,7 @@ class ReceivingThread extends Thread {
 				e.printStackTrace();
 			}
 
-			//receive signal, then do something...
+			// receive signal, then do something...
 
 		}
 
@@ -195,7 +227,7 @@ class SendingThread extends Thread {
 
 		while (true) {
 			try {
-				//do something, then signal
+				// do something, then signal
 				System.out.println("before take");
 				this.semaphore.take();
 				System.out.println("take..");

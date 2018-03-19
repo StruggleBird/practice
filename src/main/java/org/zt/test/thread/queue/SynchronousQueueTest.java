@@ -3,6 +3,7 @@ package org.zt.test.thread.queue;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -11,13 +12,14 @@ import org.junit.Test;
 
 public class SynchronousQueueTest {
 
-	private ExecutorService executors = new ThreadPoolExecutor(20, 100, 60L, TimeUnit.SECONDS,
-			new SynchronousQueue<Runnable>());
-
 	private SynchronousQueue<Integer> queue = new SynchronousQueue<>();
 
 	@Test
 	public void testSubmit() throws InterruptedException {
+
+		ExecutorService executors = new ThreadPoolExecutor(20, 100, 60L, TimeUnit.SECONDS,
+				new LinkedBlockingDeque<Runnable>(20));
+		// 最多100个线程，当第101个任务提交时会被拒绝
 		for (int i = 0; i < 101; i++) {
 			executors.submit(new Runnable() {
 
