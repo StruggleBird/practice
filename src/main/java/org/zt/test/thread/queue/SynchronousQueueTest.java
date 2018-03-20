@@ -18,7 +18,7 @@ public class SynchronousQueueTest {
 	public void testSubmit() throws InterruptedException {
 
 		ExecutorService executors = new ThreadPoolExecutor(20, 100, 60L, TimeUnit.SECONDS,
-				new LinkedBlockingDeque<Runnable>(20));
+				new SynchronousQueue<Runnable>());
 		// 最多100个线程，当第101个任务提交时会被拒绝
 		for (int i = 0; i < 101; i++) {
 			executors.submit(new Runnable() {
@@ -86,7 +86,7 @@ public class SynchronousQueueTest {
 	@Test
 	public void testFair() throws InterruptedException {
 		long begin = System.currentTimeMillis();
-		SynchronousQueue<Object> queue = new SynchronousQueue<>(true); // 公平锁体现在入队顺序和出队顺序是否一致
+		SynchronousQueue<Object> queue = new SynchronousQueue<>(); // 公平锁体现在入队顺序和出队顺序是否一致
 		// fair 为true时，按照线程插入的先后顺序入队；为false时，则为竞争机制
 		CountDownLatch cdl = new CountDownLatch(20);
 		// 消费线程
