@@ -32,6 +32,31 @@
 			<artifactId>disruptor</artifactId>
 			<version>3.3.9</version>
 		</dependency>
+		<dependency>
+		  <groupId>io.rsocket</groupId>
+		  <artifactId>rsocket-core</artifactId>
+		  <version>1.0.0-RC2</version>
+		</dependency>
+		<dependency>
+		  <groupId>io.rsocket</groupId>
+		  <artifactId>rsocket-transport-netty</artifactId>
+		  <version>1.0.0-RC2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+			<version>3.2.6.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-buffer</artifactId>
+			<version>4.1.33.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>io.projectreactor.netty</groupId>
+			<artifactId>reactor-netty</artifactId>
+			<version>0.8.5.RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>
